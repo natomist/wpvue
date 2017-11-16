@@ -1,0 +1,632 @@
+<style>
+//Variables
+
+@btn-font-weight		: normal;
+@btn-padding-base	   : 6px 15px;
+@btn-padding-large	  : 6px 15px 7px 15px;
+@btn-padding-small	  : 2px 7px;
+@btn-font-size		  : 12px;
+@btn-font-size-large	: 14px;
+@btn-border-radius	  : 4px;
+@btn-border-radius-small: 3px;
+
+@btn-disable-color	  : #bbbec4;
+@btn-disable-bg		 : @background-color-base;
+@btn-disable-border	 : @border-color-base;
+
+@btn-default-color	  : @text-color;
+@btn-default-bg		 : @background-color-base;
+@btn-default-border	 : @border-color-base;
+
+@btn-primary-color	  : #fff;
+@btn-primary-bg		 : @primary-color;
+
+@btn-ghost-color		: @text-color;
+@btn-ghost-bg		   : transparent;
+@btn-ghost-border	   : @border-color-base;
+
+@btn-circle-size		: 32px;
+@btn-circle-size-large  : 36px;
+@btn-circle-size-small  : 24px;
+
+@btn-prefix-cls: ~"@{css-prefix}btn";
+
+@btn-group-border	   : shade(@primary-color, 5%);
+
+//Mixins
+
+.button-size(@padding; @font-size; @border-radius) {
+	padding: @padding;
+	font-size: @font-size;
+	border-radius: @border-radius;
+}
+
+.button-color(@color; @background; @border) {
+	color: @color;
+	background-color: @background;
+	border-color: @border;
+	// a inside Button which only work in Chrome
+	// http://stackoverflow.com/a/17253457
+	> a:only-child {
+		color: currentColor;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: transparent;
+		}
+	}
+}
+
+.button-variant(@color; @background; @border) {
+	.button-color(@color; @background; @border);
+
+	&:hover
+	//&:focus
+	{
+		.button-color(tint(@color, 20%); tint(@background, 20%); tint(@border, 20%));
+	}
+	&:active,
+	&.active {
+		.button-color(shade(@color, 5%); shade(@background, 5%); shade(@background, 5%));
+	}
+
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			.button-color(@btn-disable-color; @btn-disable-bg; @btn-disable-border);
+		}
+	}
+}
+
+.button-group-base(@btnClassName) {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	> .@{btnClassName} {
+		position: relative;
+		float: left;
+		&:hover,
+		//&:focus,
+		&:active,
+		&.active {
+			z-index: 2;
+		}
+	}
+
+	& .@{btnClassName}-icon-only .ivu-icon {
+		font-size: 14px;
+		position: relative;
+		top: 1px;
+	}
+
+	&-large .@{btnClassName}-icon-only .ivu-icon{
+		font-size: 16px;
+		top: 2px;
+	}
+
+	&-small .@{btnClassName}-icon-only .ivu-icon{
+		font-size: 12px;
+		top: 0;
+	}
+
+	&-circle .@{btnClassName} {
+		border-radius: @btn-circle-size;
+	}
+
+	// size
+	&-large&-circle .@{btnClassName} {
+		border-radius: @btn-circle-size-large;
+	}
+	&-large {
+		& > .@{btnClassName} {
+			.button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+		}
+	}
+
+	&-small&-circle .@{btnClassName} {
+		border-radius: @btn-circle-size-small;
+	}
+	&-small {
+		& > .@{btnClassName}{
+			.button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+			> .@{css-prefix-iconfont} {
+				font-size: @btn-font-size;
+			}
+		}
+	}
+}
+
+.button-group-vertical-base(@btnClassName) {
+	display: inline-block;
+	vertical-align: middle;
+	> .@{btnClassName} {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		float: none;
+	}
+}
+
+.btn() {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: @btn-font-weight;
+	text-align: center;
+	vertical-align: middle;
+	touch-action: manipulation;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	white-space: nowrap;
+	line-height: @line-height-base;
+	user-select: none;
+	.button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
+	//transform: translate3d(0, 0, 0);
+	//transition: all @transition-time linear;
+	transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear;
+
+	> .@{css-prefix-iconfont} {
+		line-height: 1;
+	}
+
+	&,
+	&:active,
+	&:focus {
+		outline: 0;
+	}
+
+	&:not([disabled]):hover {
+		text-decoration: none;
+	}
+
+	&:not([disabled]):active {
+		outline: 0;
+		transition: none;
+	}
+
+	&.disabled,
+	&[disabled] {
+		cursor: @cursor-disabled;
+		> * {
+			pointer-events: none;
+		}
+	}
+
+	&-large {
+		.button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+	}
+
+	&-small {
+		.button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+	}
+}
+
+// Default
+.btn-default() {
+	.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+
+	&:hover
+	//&:focus
+	{
+		.button-color(tint(@primary-color, 20%); white; tint(@primary-color, 20%));
+	}
+	&:active,
+	&.active {
+		.button-color(shade(@primary-color, 5%); white; shade(@primary-color, 5%));
+	}
+}
+
+// Primary
+.btn-primary() {
+	.button-variant(@btn-primary-color; @btn-primary-bg; @primary-color);
+
+	&:hover,
+	//&:focus,
+	&:active,
+	&.active {
+		color: @btn-primary-color;
+	}
+}
+
+// Ghost
+.btn-ghost() {
+	.button-variant(@btn-ghost-color, @btn-ghost-bg, @btn-ghost-border);
+
+	&:hover
+	//&:focus
+	{
+		.button-color(tint(@primary-color, 20%); @btn-ghost-bg; tint(@primary-color, 20%));
+	}
+	&:active,
+	&.active {
+		.button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
+	}
+}
+
+// Dashed
+.btn-dashed() {
+	.button-variant(@btn-ghost-color, @btn-ghost-bg, @btn-ghost-border);
+	border-style: dashed;
+
+	&:hover
+	//&:focus
+	{
+		.button-color(tint(@primary-color, 20%); @btn-ghost-bg; tint(@primary-color, 20%));
+	}
+	&:active,
+	&.active {
+		.button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
+	}
+}
+
+// Text
+.btn-text() {
+	.button-variant(@btn-ghost-color, @btn-ghost-bg, transparent);
+
+	// for disabled
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			.button-color(@btn-disable-color; @btn-ghost-bg; transparent);
+		}
+	}
+
+	&:hover
+		//&:focus
+	{
+		.button-color(tint(@primary-color, 20%); @btn-ghost-bg; transparent);
+	}
+	&:active,
+	&.active {
+		.button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
+	}
+}
+
+// Color
+.btn-color(@color) {
+	.button-variant(@btn-primary-color; @color; @color);
+
+	&:hover,
+		//&:focus,
+	&:active,
+	&.active {
+		color: @btn-primary-color;
+	}
+}
+
+// Circle for Icon
+.btn-circle(@btnClassName: ivu-btn) {
+	border-radius: @btn-circle-size;
+
+	&.@{btnClassName}-large{
+		border-radius: @btn-circle-size-large;
+	}
+
+	&.@{btnClassName}-size{
+		border-radius: @btn-circle-size-small;
+	}
+
+	&.@{btnClassName}-icon-only{
+		.square(@btn-circle-size);
+		.button-size(0; @font-size-base + 2; 50%);
+
+		&.@{btnClassName}-large{
+			.square(@btn-circle-size-large);
+			.button-size(0; @btn-font-size-large + 2; 50%);
+		}
+
+		&.@{btnClassName}-small{
+			.square(@btn-circle-size-small);
+			.button-size(0; @font-size-base; 50%);
+		}
+	}
+}
+
+//Styles
+
+.@{btn-prefix-cls} {
+	.btn;
+	.btn-default;
+
+	&-long{
+		width: 100%;
+	}
+
+	& > .ivu-icon + span, & > span + .ivu-icon{
+		margin-left: 4px;
+	}
+
+	&-primary {
+		.btn-primary;
+
+		.@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:not(:first-child):not(:last-child) {
+			border-right-color: @btn-group-border;
+			border-left-color: @btn-group-border;
+		}
+
+		.@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:first-child {
+			&:not(:last-child) {
+				border-right-color: @btn-group-border;
+				&[disabled] {
+					border-right-color: @btn-default-border;
+				}
+			}
+		}
+
+		.@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:last-child:not(:first-child),
+		.@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) & + .@{btn-prefix-cls} {
+			border-left-color: @btn-group-border;
+			&[disabled] {
+				border-left-color: @btn-default-border;
+			}
+		}
+
+		.@{btn-prefix-cls}-group-vertical &:not(:first-child):not(:last-child) {
+			border-top-color: @btn-group-border;
+			border-bottom-color: @btn-group-border;
+		}
+
+		.@{btn-prefix-cls}-group-vertical &:first-child {
+			&:not(:last-child) {
+				border-bottom-color: @btn-group-border;
+				&[disabled] {
+					border-top-color: @btn-default-border;
+				}
+			}
+		}
+
+		.@{btn-prefix-cls}-group-vertical &:last-child:not(:first-child),
+		.@{btn-prefix-cls}-group-vertical & + .@{btn-prefix-cls} {
+			border-top-color: @btn-group-border;
+			&[disabled] {
+				border-bottom-color: @btn-default-border;
+			}
+		}
+	}
+
+	&-ghost {
+		.btn-ghost;
+	}
+
+	&-dashed{
+		.btn-dashed;
+	}
+
+	&-text{
+		.btn-text;
+	}
+
+	&-success {
+		.btn-color(@success-color);
+	}
+
+	&-warning {
+		.btn-color(@warning-color);
+	}
+
+	&-error {
+		.btn-color(@error-color);
+	}
+
+	&-info {
+		.btn-color(@info-color);
+	}
+
+	&-circle,
+	&-circle-outline {
+		.btn-circle(@btn-prefix-cls);
+	}
+
+	&:before {
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		bottom: -1px;
+		right: -1px;
+		background: #fff;
+		opacity: 0.35;
+		content: '';
+		border-radius: inherit;
+		z-index: 1;
+		transition: opacity @transition-time;
+		pointer-events: none;
+		display: none;
+	}
+
+	&&-loading {
+		pointer-events: none;
+		position: relative;
+
+		&:before {
+			display: block;
+		}
+	}
+
+	&-group {
+		.btn-group(@btn-prefix-cls);
+	}
+
+	&-group-vertical {
+		.btn-group-vertical(@btn-prefix-cls);
+	}
+}
+
+// Group
+.btn-group(@btnClassName: ivu-btn) {
+	.button-group-base(@btnClassName);
+
+	.@{btnClassName} + .@{btnClassName},
+	.@{btnClassName} + &,
+	& + .@{btnClassName},
+	& + & {
+		margin-left: -1px;
+	}
+
+	.@{btnClassName}:not(:first-child):not(:last-child) {
+		border-radius: 0;
+	}
+
+	&:not(&-vertical) > .@{btnClassName}:first-child {
+		margin-left: 0;
+		&:not(:last-child) {
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+		}
+	}
+
+	&:not(&-vertical) > .@{btnClassName}:last-child:not(:first-child) {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+	}
+
+	& > & {
+		float: left;
+	}
+
+	& > &:not(:first-child):not(:last-child) > .@{btnClassName} {
+		border-radius: 0;
+	}
+
+	&:not(&-vertical) > &:first-child:not(:last-child) {
+		> .@{btnClassName}:last-child {
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+			padding-right: 8px;
+		}
+	}
+
+	&:not(&-vertical) > &:last-child:not(:first-child) > .@{btnClassName}:first-child {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		padding-left: 8px;
+	}
+}
+
+.btn-group-vertical(@btnClassName: ivu-btn) {
+	.button-group-vertical-base(@btnClassName);
+
+	.@{btnClassName} + .@{btnClassName},
+	.@{btnClassName} + &,
+	& + .@{btnClassName},
+	& + & {
+		margin-top: -1px;
+		margin-left: 0px;
+	}
+
+	> .@{btnClassName}:first-child {
+		margin-top: 0;
+		&:not(:last-child) {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+
+	> .@{btnClassName}:last-child:not(:first-child) {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	& > &:first-child:not(:last-child) {
+		> .@{btnClassName}:last-child {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+			padding-bottom: 8px;
+		}
+	}
+
+	& > &:last-child:not(:first-child) > .@{btnClassName}:first-child {
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+		padding-top: 8px;
+	}
+}
+</style>
+
+<template>
+	<button :type="htmlType" :class="classes" :disabled="disabled"><!--  @click="handleClick" -->
+		<i-icon class="ivu-load-loop" type="load-c" v-if="loading" />
+		<i-icon :type="icon" v-if="!!icon && !loading" />
+		<span v-if="$slots.default != null"><slot /></span>
+	</button>
+</template>
+
+<script>
+module.exports = {
+	//Vue.component('i-style');
+	//Vue.component('i-icon');
+	props: {
+		type: {
+			validator (value) {
+				return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default']);
+			}
+		},
+		shape: {
+			validator (value) {
+				return oneOf(value, ['circle', 'circle-outline']);
+			}
+		},
+		size: {
+			validator (value) {
+				return oneOf(value, ['small', 'large', 'default']);
+			}
+		},
+		loading: Boolean,
+		disabled: Boolean,
+		htmlType: {
+			default: 'button',
+			validator (value) {
+				return oneOf(value, ['button', 'submit', 'reset']);
+			}
+		},
+		icon: String,
+		long: {
+			type: Boolean,
+			default: false
+		}
+	},
+	computed: {
+		classes: function() {
+			var prefixCls = 'ivu-btn';
+			var ret = [ 'ivu-btn' ];
+			if( !!this.type ) {
+				ret.push('ivu-btn-'+this.type);
+			}
+			if( this.long ) {
+				ret.push('ivu-btn-long');
+			}
+			if( !!this.shape ) {
+				ret.push('ivu-btn-'+this.shape);
+			}
+			if( !!this.size ) {
+				ret.push('ivu-btn-'+this.size);
+			}
+			if( this.loading != null && this.loading ) {
+				ret.push('ivu-btn-loading');
+			}
+			if( !!this.icon || this.loading ) {
+				ret.push('ivu-btn-icon-only');
+			}
+			return ret;
+		}
+	},
+	//methods: {
+	//	handleClick (event) {
+	//		this.$emit('click', event);
+	//	}
+	//},
+};
+</script>

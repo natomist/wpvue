@@ -1,0 +1,10 @@
+[submodule "inc/lessphp"]
+	path = inc/lessphp
+	url = https://github.com/natomist/lessphp.git
+	branch = functions-tint-shade
+[submodule "inc/minify"]
+	path = inc/minify
+	url = https://github.com/matthiasmullie/minify.git
+[submodule "inc/parsedown"]
+	path = inc/parsedown
+	url = https://github.com/erusev/parsedown.git
