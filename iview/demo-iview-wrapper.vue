@@ -1,9 +1,14 @@
 <style>
-	.demo-i-select .demo {
+.demo-i-select {
+	width: 100%;
+
+	.demo {
+
 		> div {
 			margin-bottom: 0.5rem;
 		}
 	}
+}
 </style>
 
 <template>
@@ -14,7 +19,7 @@
 			</td>
 		</tr>
 		<tr v-for="(field, iField) in $parent.model">
-			<td v-text="iField" />
+			<td v-text="iField" align="right" />
 			<td>
 				<select v-model="field.value">
 					<option v-for="value in field.list" :value="value">{{value}}</option>

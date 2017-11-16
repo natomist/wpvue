@@ -1,8 +1,10 @@
 
 #iview comonents
 
-## button
+## i-button
 
 [](#demo-i-button)
 
-## card
+## i-card
+
+[](#demo-i-card)

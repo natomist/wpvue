@@ -8,3 +8,6 @@
 [submodule "inc/parsedown"]
 	path = inc/parsedown
 	url = https://github.com/erusev/parsedown.git
+[submodule "inc/path-converter"]
+	path = inc/path-converter
+	url = https://github.com/matthiasmullie/path-converter.git

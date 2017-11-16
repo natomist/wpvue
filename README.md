@@ -1,7 +1,7 @@
 
-#Wordpress Vue.js theme
+# Wordpress Vue.js theme
 
-##Summary
+## Summary
 
 This theme is for using to create front end from set of Vue.js components. You don't need npm, webpack or other tools to work with this theme.
 Just create set of .vue files and this theme will create single js which includes Vue.js and all compiled components.
@@ -22,7 +22,7 @@ This theme includes folowing tools:
 
 Because this theme redefines Front End mechanism it is impossible to use most Wordpress plugins
 
-##Installation
+## Installation
 
 1. Download theme
 ```

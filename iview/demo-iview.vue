@@ -24,6 +24,7 @@
 <script>
 //Vue.component('index')
 //Vue.component('demo-i-button')
+//Vue.component('demo-i-card')
 module.exports = {
 	data: function() {
 		return {
