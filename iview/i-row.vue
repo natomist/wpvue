@@ -199,12 +199,12 @@ module.exports = {
 			}
 			if( !!this.type ) { 
 				ret.push('ivu-row-' + this.type);
-			}
-			if( !!this.align ) {
-				ret.push( 'ivu-row-' + this.type + '-' + this.align );
-			}
-			if( !!this.justify ) {
-				ret.push( 'ivu-row-' + this.type + '-' + this.justify );
+				if( !!this.align ) {
+					ret.push( 'ivu-row-' + this.type + '-' + this.align );
+				}
+				if( !!this.justify ) {
+					ret.push( 'ivu-row-' + this.type + '-' + this.justify );
+				}
 			}
 			if( !!this.className ) {
 				ret.push( this.className );
