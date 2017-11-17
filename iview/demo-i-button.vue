@@ -1,12 +1,12 @@
 <template>
-	<demo-wrapper>
-		<div>
+	<demo-wrapper align="center">
+		<div class="text-center">
 			<i-button :type="model.type.value" :shape="model.shape.value" :icon="model.icon.value" 
 					:size="model.size.value" :long="model.long.value" :disabled="model.disabled.value">
 				<span v-if="model.shape.value == null || model.icon.value == null">Search</span>
 			</i-button>
 		</div>
-		<div>
+		<div class="text-center">
 			<i-button-group>
 				<i-button :type="model.type.value" :shape="model.shape.value" :icon="model.icon.value" 
 						:size="model.size.value" :disabled="model.disabled.value">

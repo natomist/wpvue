@@ -16,3 +16,8 @@
 ## i-carousel
 
 [](#demo-i-carousel)
+
+## i-menu
+
+[](#demo-i-menu)
+

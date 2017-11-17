@@ -13,7 +13,7 @@ module.exports = {
 	computed: {
 		carousel: function() {
 			var parent = this.$parent;
-			while( parent != null ) {
+			while( parent ) {
 				if( parent.name == 'carousel' ) {
 					return parent;
 				}

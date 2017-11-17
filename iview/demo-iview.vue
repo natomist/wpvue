@@ -7,4 +7,5 @@
 //Vue.component('demo-i-button')
 //Vue.component('demo-i-card')
 //Vue.component('demo-i-carousel')
+//Vue.component('demo-i-menu')
 </script>

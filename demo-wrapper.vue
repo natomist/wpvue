@@ -14,7 +14,7 @@
 <template>
 	<table class="demo-i-select">
 		<tr>
-			<td align="center" colspan="2" class="demo">
+			<td colspan="2" class="demo" :align="align">
 				<slot />
 			</td>
 		</tr>
@@ -28,3 +28,9 @@
 		</tr>
 	</table>
 </template>
+
+<script>
+module.exports = {
+	props: [ 'align' ],
+}
+</script>
