@@ -1,5 +1,5 @@
 <template>
-	<demo-iview-wrapper>
+	<demo-wrapper>
 		<div>
 			<i-button :type="model.type.value" :shape="model.shape.value" :icon="model.icon.value" 
 					:size="model.size.value" :long="model.long.value" :disabled="model.disabled.value">
@@ -15,7 +15,7 @@
 				<i-button :size="model.size.value">Cancel</i-button>
 			</i-button-group>
 		</div>
-	</demo-iview-wrapper>
+	</demo-wrapper>
 </template>
 
 <script>

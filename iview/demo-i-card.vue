@@ -1,12 +1,12 @@
 <template>
-	<demo-iview-wrapper>
+	<demo-wrapper>
 		<i-card :bordered="model.bordered.value" :disHover="model.disHover.value"
 			:shadow="model.shadow.value" :padding="model.padding.value">
 			<div slot="title">Title</div>
 			<div slot="extra">Extra</div>
 			<div>Content</div>
 		</i-card>
-	</demo-iview-wrapper>
+	</demo-wrapper>
 </template>
 
 <script>

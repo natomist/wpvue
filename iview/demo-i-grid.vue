@@ -12,7 +12,7 @@
 </style>
 
 <template>
-	<demo-iview-wrapper class="demo-grid">
+	<demo-wrapper class="demo-grid">
 		<i-row :type="model.type.value" :align="model.align.value" 
 				:justify="model.justify.value" :gutter="model.gutter.value">
 			<i-col :span="12">
@@ -41,7 +41,7 @@
 				</div>
 			</i-col>
 		</i-row>
-	</demo-iview-wrapper>
+	</demo-wrapper>
 </template>
 
 <script>

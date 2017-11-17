@@ -12,3 +12,7 @@
 ## i-card
 
 [](#demo-i-card)
+
+## i-carousel
+
+(#demo-i-carousel)
