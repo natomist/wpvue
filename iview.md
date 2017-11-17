@@ -15,4 +15,4 @@
 
 ## i-carousel
 
-(#demo-i-carousel)
+[](#demo-i-carousel)

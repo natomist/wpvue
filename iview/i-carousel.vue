@@ -297,14 +297,6 @@ module.exports = {
 			type: Number,
 			default: 2000
 		},
-		loop: {
-			type: Boolean,
-			default: false
-		},
-		easing: {
-			type: String,
-			default: 'ease'
-		},
 		dots: {
 			type: String,
 			default: 'inside',
@@ -322,10 +314,6 @@ module.exports = {
 			validator (value) {
 				return oneOf(value, ['click', 'hover']);
 			}
-		},
-		value: {
-			type: Number,
-			default: 0
 		},
 	},
 	data: function() {
