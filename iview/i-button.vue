@@ -557,7 +557,7 @@
 </style>
 
 <template>
-	<button :type="htmlType" :class="classes" :disabled="disabled"><!--  @click="handleClick" -->
+	<button :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
 		<i-icon class="ivu-load-loop" type="load-c" v-if="loading" />
 		<i-icon :type="icon" v-if="!!icon && !loading" />
 		<span v-if="$slots.default != null"><slot /></span>
@@ -623,10 +623,10 @@ module.exports = {
 			return ret;
 		}
 	},
-	//methods: {
-	//	handleClick (event) {
-	//		this.$emit('click', event);
-	//	}
-	//},
+	methods: {
+		handleClick: function(event) {
+			this.$emit('click', this);
+		}
+	},
 };
 </script>

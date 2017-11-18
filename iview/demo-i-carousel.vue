@@ -1,14 +1,3 @@
-<style>
-.demo-carousel {
-    height: 200px;
-    line-height: 200px;
-    text-align: center;
-    color: #fff;
-    font-size: 20px;
-    background: #506b9e;
-}
-</style>
-
 <template>
 	<demo-wrapper>
 		<i-carousel :arrow="model.arrow.value" :autoplay="model.autoplay.value"
@@ -61,3 +50,14 @@ module.exports = {
 	},
 }
 </script>
+
+<style>
+.demo-carousel {
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    background: #506b9e;
+}
+</style>

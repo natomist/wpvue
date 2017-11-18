@@ -1,16 +1,3 @@
-<style>
-.demo-grid {
-	.col {
-		background: rgba(0,153,229,.7);
-
-		&.even {
-			background: rgba(0,153,229,.9);
-			height: 2rem;
-		}
-	}
-}
-</style>
-
 <template>
 	<demo-wrapper class="demo-grid">
 		<i-row :type="model.type.value" :align="model.align.value" 
@@ -70,3 +57,16 @@ module.exports = {
 	},
 }
 </script>
+
+<style>
+.demo-grid {
+	.col {
+		background: rgba(0,153,229,.7);
+
+		&.even {
+			background: rgba(0,153,229,.9);
+			height: 2rem;
+		}
+	}
+}
+</style>
