@@ -27,11 +27,32 @@
 	}
 
 	.md-reader-code {
+		margin: 1rem 0;
+
 		code {
 			width: 100%;
 
 			pre {
 				margin: 0;
+			}
+		}
+	}
+
+	table {
+		border-collapse: collapse;
+
+		th {
+			text-align: center;
+		}
+
+		th, td {
+			border: 1px solid #ddd;
+			padding: 6px 13px;
+		}
+
+		&.demo-i-select {
+			td.demo {
+				border: none;
 			}
 		}
 	}
@@ -49,10 +70,10 @@
 				<i-button slot="extra" shape="circle" size="small" :data-index="index" 
 					:icon="index == expanded ? 'ios-arrow-down' : 'ios-arrow-up'" @click="expand" />
 				<i-row type="flex" :gutter="8">
-					<i-col span="12">
+					<i-col span="14">
 						<component v-bind:is="item.name" />
 					</i-col>
-					<i-col span="12" class="code">
+					<i-col span="10" class="code">
 						<code :class="{ expanded: expanded == index }">
 							<pre>{{item.code}}</pre>
 						</code>
@@ -61,26 +82,6 @@
 			</i-card>
 		</div>
 	</div>
-	<!--div>
-		<div v-for="item in items">
-			<div v-if="item.html != null" v-html="item.html" />
-			<table class="demo" v-if="item.name != null">
-				<tr>
-					<td span="2">
-						File <b>{{item.name}}.vue</b>
-					</td>
-				</tr>
-				<tr>
-					<td align="center">
-						<component v-bind:is="item.name" />
-					</td>
-					<td>
-						<code><pre>{{item.code}}</pre></code>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div-->
 </template>
 
 <script>

@@ -5,19 +5,56 @@
 
 [](#demo-i-grid)
 
-## i-button
+## &lt;i-button&gt;
 
 [](#demo-i-button)
 
-## i-card
+## &lt;i-card&gt;
 
 [](#demo-i-card)
 
-## i-carousel
+## &lt;i-carousel&gt;
 
 [](#demo-i-carousel)
 
-## i-menu
+## &lt;i-menu&gt;
 
 [](#demo-i-menu)
+
+## &lt;i-form&gt;
+Declare model for form:
+```
+<script>
+module.exports = {
+	data: function() {
+		return {
+			formModel: {
+				'name': {
+					require: true,
+					value: '',
+					validate: function(value) {
+						return (/^[^0-9!<>,;?=+()@#"°{}_$%:]*$/).test(value) 
+							|| "Name should be without digits and special characters";
+					},
+				},
+				'email': {
+					require: true,
+					value: '',
+					validate: function(value) {
+						return (/^\S+@\S+\.\S+$/).test(value);
+					},
+				},
+			}
+		};
+	},
+}
+</script>
+```
+Field | Description
+:---: | ---
+value | Mandatory. This field will be binded with html inputs
+require | Optinal. True if field is mandatory
+validate | Optinal. Should be function. It returns **false** or text message if value is incorrectly
+
+[](#demo-i-form)
 
