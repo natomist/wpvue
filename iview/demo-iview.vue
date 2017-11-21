@@ -9,4 +9,5 @@
 //Vue.component('demo-i-carousel')
 //Vue.component('demo-i-menu')
 //Vue.component('demo-i-form')
+//Vue.component('demo-i-steps')
 </script>
