@@ -1,4 +1,9 @@
 <style>
+//Variables
+
+@btn-border-radius	  : 4px;
+@btn-disable-color	  : #bbbec4;
+
 @menu-prefix-cls: ~"@{css-prefix}menu";
 @menu-dropdown-item-prefix-cls: ~"@{menu-prefix-cls}-horizontal .@{menu-prefix-cls}-submenu .@{select-dropdown-prefix-cls} .@{menu-prefix-cls}-item";
 @select-dropdown-prefix-cls: ~"@{css-prefix}select-dropdown";
