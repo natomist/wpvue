@@ -10,4 +10,5 @@
 //Vue.component('demo-i-menu')
 //Vue.component('demo-i-form')
 //Vue.component('demo-i-steps')
+//Vue.component('demo-i-tabs')
 </script>

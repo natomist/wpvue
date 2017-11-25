@@ -61,3 +61,7 @@ validate | Optinal. Should be function. It returns **false** or text message if 
 ## &lt;steps&gt;
 
 [](#demo-i-steps)
+
+## &lt;tabs&gt;
+
+[](#demo-i-tabs)

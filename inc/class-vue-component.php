@@ -384,6 +384,17 @@ class VueComponent {
 					getLanguages: function() {
 						return <?php echo $termsStr; ?>
 					},
+					getParent(name) {
+						var parent = this.$parent;
+						while(parent) {
+							if( parent.name == name ) {
+								return parent;
+							}
+							parent = parent.$parent;
+						}
+
+						return null;
+					},
 				},
 				components: {
 					<?php echo $componentsStr; ?>
