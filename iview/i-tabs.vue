@@ -168,6 +168,9 @@
 	}
 
 	// card style
+	&.ivu-tabs-card > .ivu-tabs-bar {
+		margin: 0;
+	}
 	&&-card > &-bar &-nav-container {
 		height: 32px;
 	}
@@ -224,6 +227,12 @@
 .@{tabs-prefix-cls}-no-animation{
 	> .@{tabs-prefix-cls}-content {
 		transform: none!important;
+
+		&.@{tabs-prefix-cls}-content-card {
+			border-width: 0 1px 1px 1px;
+			border-style: solid;
+			border-color: @border-color-base;
+		}
 
 		> .@{tabs-prefix-cls}-tabpane-inactive {
 			display: none;
@@ -302,6 +311,7 @@ module.exports = {
 			return {
 				"ivu-tabs-content": true,
 				"ivu-tabs-content-animated": this.animated,
+				"ivu-tabs-content-card": this.type == 'card',
 			};
 		},
 	},

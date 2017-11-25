@@ -9,6 +9,12 @@
 			<i-form-item label="E-mail" prop="email">
 				<i-input />
 			</i-form-item>
+			<i-form-item label="Url" prop="url">
+				<i-input>
+					<span slot="prepend">http://</span>
+					<span slot="append">.com</span>
+				</i-input>
+			</i-form-item>
 		</i-form>
 	</demo-wrapper>
 </template>
@@ -42,6 +48,9 @@ module.exports = {
 					validate: function(value) {
 						return (/^\S+@\S+\.\S+$/).test(value);
 					},
+				},
+				'url': {
+					value: '',
 				},
 			}
 		};

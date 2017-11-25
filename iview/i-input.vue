@@ -53,6 +53,7 @@
 
 .@{input-prefix-cls}-group{
 	.input-group(~"@{input-prefix-cls}");
+	border-spacing: 0;
 }
 
 .@{form-item-prefix-cls}-error{
@@ -65,14 +66,6 @@
 	.@{input-prefix-cls}-group{
 		.input-group-error;
 	}
-	//.@{transfer-prefix-cls} {
-	//	.@{input-prefix-cls} {
-	//		.input;
-	//		&-icon{
-	//			color: @subsidiary-color;
-	//		}
-	//	}
-	//}
 }
 .@{form-item-prefix-cls}-validating{
 	.@{input-prefix-cls}{
@@ -87,7 +80,15 @@
 </style>
 
 <template>
-	<input class="ivu-input" :value="value" @input="change" />
+	<div :class="wrapClasses">
+		<div class="ivu-input-group-prepend" v-if="$slots.prepend">
+			<slot name="prepend" />
+		</div>
+		<input class="ivu-input" :value="value" @input="change" />
+		<div class="ivu-input-group-append" v-if="$slots.append">
+			<slot name="append" />
+		</div>
+	</div>
 </template>
 
 <script>
@@ -100,6 +101,14 @@ module.exports = {
 		};
 	},
 	computed: {
+		wrapClasses: function() {
+			return {
+				"ivu-input-wrapper": true,
+				"ivu-input-group": this.$slots.prepend || this.$slots.append,
+				"ivu-input-group-with-prepend": this.$slots.prepend,
+				"ivu-input-group-with-append": this.$slots.append,
+			};
+		},
 		value: function() {
 			if( this.model && this.prop ) {
 				return this.model[this.prop].value;
