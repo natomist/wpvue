@@ -366,9 +366,8 @@
 //Vue.component('i-style');
 module.exports = {
 	props: {
-		current: {
-			type: Number,
-			default: 0
+		value: {
+			type: [String, Number]
 		},
 		status: {
 			validator: function(value) {
@@ -402,8 +401,17 @@ module.exports = {
 	},
 	data: function() {
 		return {
+			current: this.value,
 			steps: [],
 		};
+	},
+	watch: {
+		'value': function(value) {
+			this.current = value;
+		},
+		'current': function(value) {
+			this.$emit('input', value);
+		},
 	},
 };
 </script>

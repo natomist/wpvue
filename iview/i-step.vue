@@ -56,7 +56,7 @@ module.exports = {
 			if( this.steps == null ) {
 				return null;
 			}
-			return this.steps.steps.indexOf(this)+1;
+			return this.steps.steps.indexOf(this);
 		},
 		numberSteps: function() {
 			if( this.steps == null ) {
@@ -110,7 +110,8 @@ module.exports = {
 	},
 	methods: {
 		click: function() {
-			this.steps.$emit("onselect", this.stepNumber);
+			//this.steps.$emit("onselect", this.stepNumber);
+			this.steps.current = this.steps.steps.indexOf(this);
 		}
 	},
 };

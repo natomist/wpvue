@@ -1,9 +1,9 @@
 <template>
 	<demo-wrapper>
-		<i-steps :current="model.current.value" 
+		<i-steps v-model="model.current.value" 
 				:status="model.status.value"
 				:size="model.size.value"
-				:direction="model.direction.value" @onselect="onselect"
+				:direction="model.direction.value"
 		>
 			<i-step title="Step 1" content="Cart" icon="ios-cart" />
 			<i-step title="Step 2" content="Address" />
@@ -18,7 +18,7 @@ module.exports = {
 		return {
 			model: {
 				current: {
-					list: [1, 2, 3],
+					list: [0, 1, 2],
 					value: 1,
 				},
 				status: {
@@ -36,10 +36,5 @@ module.exports = {
 			},
 		};
 	},
-	methods: {
-		onselect: function(value) {
-			console.log(value);
-		}
-	}
 }
 </script>
