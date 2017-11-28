@@ -58,10 +58,15 @@ validate | Optinal. Should be function. It returns **false** or text message if 
 
 [](#demo-i-form)
 
-## &lt;steps&gt;
+## &lt;i-steps&gt;
 
 [](#demo-i-steps)
 
-## &lt;tabs&gt;
+## &lt;i-tabs&gt;
 
 [](#demo-i-tabs)
+
+## &lt;i-dropdown&gt;
+
+[](#demo-i-dropdown)
+
