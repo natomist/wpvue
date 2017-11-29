@@ -135,11 +135,11 @@ class VueComponent {
 			}
 
 			$component = $this->getComponent($_REQUEST['name']);
-			if( !isset($component['terms']) ) {
+			if( !isset($component['bundleTerms']) ) {
 				throw(new Exception('There is no terms bundle for this component.'));
 			}
 
-			echo json_encode($component['terms']);
+			echo json_encode($component['bundleTerms']);
 		} catch(Exception $e) {
 			h404( $e->getMessage() );
 		}

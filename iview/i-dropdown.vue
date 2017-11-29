@@ -1,6 +1,6 @@
 <style>
 @select-dropdown-prefix-cls: ~"@{css-prefix}select-dropdown";
-@transfer-no-max-height: ~"@{css-prefix}transfer-no-max-height";
+//@transfer-no-max-height: ~"@{css-prefix}transfer-no-max-height";
 
 @dropdown-prefix-cls: ~"@{css-prefix}dropdown";
 @dropdown-item-prefix-cls: ~"@{dropdown-prefix-cls}-item";
@@ -21,13 +21,13 @@
 		position: relative;
 	}
 
-	&-menu{
-		min-width: 100px;
-	}
+	//&-menu{
+	//	min-width: 100px;
+	//}
 
-	&-transfer{
-		width: auto;
-	}
+	//&-transfer{
+	//	width: auto;
+	//}
 
 	.@{select-dropdown-prefix-cls} {
 		display: none;
@@ -41,12 +41,12 @@
 		box-shadow: @shadow-base;
 		position: absolute;
 		z-index: @zindex-select;
-		&-transfer{
-			z-index: @zindex-transfer;
-		}
-		&.@{transfer-no-max-height} {
-			max-height: none;
-		}
+		//&-transfer{
+		//	z-index: @zindex-transfer;
+		//}
+		//&.@{transfer-no-max-height} {
+		//	max-height: none;
+		//}
 	}
 
 	&.ivu-dropdown-hover:hover, &.ivu-dropdown-active {

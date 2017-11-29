@@ -569,6 +569,7 @@ module.exports = {
 	//Vue.component('i-style');
 	//Vue.component('i-icon');
 	props: {
+		to: { },
 		type: {
 			validator (value) {
 				return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default']);
@@ -625,7 +626,11 @@ module.exports = {
 	},
 	methods: {
 		handleClick: function(event) {
-			this.$emit('click', this);
+			if( this.to ) {
+				this.$router.push(this.to);
+			} else {
+				this.$emit('click', this);
+			}
 		}
 	},
 };
