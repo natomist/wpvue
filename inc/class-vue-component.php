@@ -255,6 +255,7 @@ class VueComponent {
 			$js = ob_get_clean();
 			$md5 = md5($js);
 			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.js', $js );
+			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.js.gz', gzencode($js) );
 
 			$componentPath = $this->searchComponent($_REQUEST['name']);
 			$componentCachedPath = $this->getComponentCachedPath($componentPath);
@@ -264,61 +265,17 @@ class VueComponent {
 			$css[] = $body['css'];
 
 			$lessc = new lessc;
-			//$lessc->registerFunction('tint', function($arg) use ($lessc) {
-			//	if ($arg[0] != "list" || count($arg[2]) < 2) {
-			//		$lessc->throwError("tint expects (color, weight)");
-			//	}
-			//	list($color, $weight) = $arg[2];
-
-			//	$color = $lessc->assertColor($color);
-
-			//	if (isset($weight[2])) {
-			//		$weight = $weight[1] / 100.0;
-			//	}
-			//	//$lessc->throwError(print_r([$color, $weight], true));
-
-			//	$new = [
-			//		'color',
-			//		min($color[1] + (255 - $color[1]) * $weight, 255),
-			//		min($color[2] + (255 - $color[2]) * $weight, 255),
-			//		min($color[3] + (255 - $color[3]) * $weight, 255),
-			//	];
-			//	//$lessc->throwError(print_r([$new], true));
-
-			//	return $new; // $lessc->fixColor($new);
-			//});
-			//$lessc->registerFunction('shade', function($arg) use ($lessc) {
-			//	if ($arg[0] != "list" || count($arg[2]) < 2) {
-			//		$lessc->throwError("shade expects (color, weight)");
-			//	}
-			//	list($color, $weight) = $arg[2];
-
-			//	$color = $lessc->assertColor($color);
-
-			//	if (isset($weight[2])) {
-			//		$weight = $weight[1] / 100.0;
-			//	}
-			//	//$lessc->throwError(print_r([$color, $weight], true));
-
-			//	$new = [
-			//		'color',
-			//		max($color[1] * (1 - $weight), 0),
-			//		max($color[2] * (1 - $weight), 0),
-			//		max($color[3] * (1 - $weight), 0),
-			//	];
-			//	//$lessc->throwError(print_r([$new], true));
-
-			//	return $new; // $lessc->fixColor($new);
-			//});
 			$css = $lessc->compile( implode(' ', $css) );
 			$minifier = new MatthiasMullie\Minify\CSS();
 			$minifier->add($css);
 			$css = $minifier->minify();
 			$md5 = md5($css);
 			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css', $css );
+			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css.gz', gzencode($css) );
 
 			$body['cssBundle'] = $md5.'.css';
 			file_put_contents($componentCachedPath, json_encode($body));
+			file_put_contents($componentCachedPath.'.gz', gzencode(json_encode($body)));
 		} catch(Exception $e) {
 			h404( $e->getMessage() );
 		}
