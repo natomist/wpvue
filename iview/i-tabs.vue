@@ -4,7 +4,7 @@
 .@{tabs-prefix-cls} {
 	box-sizing: border-box;
 	position: relative;
-	overflow: hidden;
+	//overflow: hidden;
 	color: @text-color;
 	.clearfix;
 
@@ -232,6 +232,7 @@
 			border-width: 0 1px 1px 1px;
 			border-style: solid;
 			border-color: @border-color-base;
+			padding: 10px;
 		}
 
 		> .@{tabs-prefix-cls}-tabpane-inactive {
