@@ -74,3 +74,7 @@ validate | Optinal. Should be function. It returns **false** or text message if 
 
 [](#demo-i-page)
 
+## &lt;i-modal&gt;
+
+[](#demo-i-modal)
+

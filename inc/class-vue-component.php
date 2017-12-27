@@ -28,6 +28,8 @@ class VueComponent {
 			get_stylesheet_directory().'/components', 
 			get_stylesheet_directory().'/svg',
 			get_template_directory(), 
+			get_template_directory().'/uikit', 
+			get_template_directory().'/uikit/icons', 
 			get_template_directory().'/iview', 
 			get_template_directory().'/components', 
 			get_template_directory().'/experimental',

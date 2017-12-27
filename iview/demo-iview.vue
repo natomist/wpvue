@@ -13,4 +13,5 @@
 //Vue.component('demo-i-tabs')
 //Vue.component('demo-i-dropdown')
 //Vue.component('demo-i-page')
+//Vue.component('demo-i-modal')
 </script>

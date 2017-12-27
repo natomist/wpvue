@@ -432,6 +432,18 @@ samp {
 	}
 }
 
+// mixins/close.less
+.close-base(@top: 0, @icon-font-size: 22px) {
+	font-size: @icon-font-size;
+	color: @legend-color;
+	transition: color @transition-time ease;
+	position: relative;
+	top: @top;
+	&:hover {
+		color: #444;
+	}
+}
+
 // mixins/content.less
 @icon-prefix-cls: ~"@{css-prefix}icon";
 
@@ -533,6 +545,22 @@ samp {
 		&:last-child{
 			bottom: 0;
 		}
+	}
+}
+
+// mixins/mask.less
+.mask() {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(55, 55, 55, 0.6);
+	height: 100%;
+	z-index: @zindex-modal;
+
+	&-hidden {
+		display: none;
 	}
 }
 
