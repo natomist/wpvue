@@ -1,0 +1,4 @@
+<template><svg class="uk-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4" />
+    <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16" />
+</svg></template>
