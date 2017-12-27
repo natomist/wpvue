@@ -2,6 +2,7 @@
 if( !defined('ABSPATH') )  { exit; }
 
 if( isset($_REQUEST['action']) and $_REQUEST['action'] == "vue-get-md" ) {
+	// https://github.com/erusev/parsedown
 	require_once 'parsedown/Parsedown.php';
 }
 
