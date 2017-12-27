@@ -1,0 +1,3 @@
+<template><svg class="uk-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <rect height="1" width="18" y="9" x="1" />
+</svg></template>

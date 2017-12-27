@@ -13,8 +13,8 @@ if( is_user_logged_in() ) {
 	require_once 'path-converter/src/ConverterInterface.php';
 	require_once 'path-converter/src/Converter.php';
 
-	// https://github.com/leafo/lessphp
-	require_once 'lessphp/lessify.inc.php';
+	// https://github.com/oyejorge/less.php
+	require_once 'less.php/lessc.inc.php';
 }
 
 class VueComponent {

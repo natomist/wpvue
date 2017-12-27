@@ -1,0 +1,3 @@
+<template><svg class="uk-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="12 5 7 10 12 15" />
+</svg></template>
