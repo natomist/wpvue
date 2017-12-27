@@ -12,4 +12,5 @@
 //Vue.component('demo-i-steps')
 //Vue.component('demo-i-tabs')
 //Vue.component('demo-i-dropdown')
+//Vue.component('demo-i-page')
 </script>

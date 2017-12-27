@@ -70,3 +70,7 @@ validate | Optinal. Should be function. It returns **false** or text message if 
 
 [](#demo-i-dropdown)
 
+## &lt;i-page&gt;
+
+[](#demo-i-page)
+

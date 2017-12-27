@@ -43,8 +43,52 @@ class VueOutput {
 			echo '<link id="css" rel="stylesheet" type="text/css" />';
 		} else {
 			$component = $vueComponent->getComponent($component);
-			echo '<script src="', get_stylesheet_directory_uri(), '/cache/', $component['jsBundle'], '"></script>';
-			echo '<link rel="stylesheet" type="text/css" href="', get_stylesheet_directory_uri(), '/cache/', $component['cssBundle'], '" />';
+			//echo '<script src="', get_stylesheet_directory_uri(), '/cache/', $component['jsBundle'], '"></script>';
+			//echo '<link rel="stylesheet" type="text/css" href="', get_stylesheet_directory_uri(), '/cache/', $component['cssBundle'], '" />';
+			echo '<script src="?action=vue-gzip&section=cache&name=', $component['jsBundle'], '"></script>';
+			echo '<link rel="stylesheet" type="text/css" href="?action=vue-gzip&section=cache&name=', $component['cssBundle'], '" />';
+		}
+	}
+
+	public function vueGzip() {
+		try {
+			if( !isset($_REQUEST['section']) or preg_match('/\.\.|\//', $_REQUEST['section']) ) {
+				throw(new Exception());
+			}
+			if( !isset($_REQUEST['name']) or preg_match('/\.\.|\//', $_REQUEST['name']) ) {
+				throw(new Exception());
+			}
+			if( !preg_match("/\.\w+$/", $_REQUEST['name'], $extension) ) {
+				throw(new Exception());
+			}
+			$filename = get_stylesheet_directory().'/'.$_REQUEST['section'].'/'.$_REQUEST['name'].'.gz';
+			if( !file_exists($filename) ) {
+				throw(new Exception());
+			}
+			$extensions = [
+				'.css' => 'text/css',
+				'.jpg' => 'image/jpeg',
+				'.png' => 'image/png',
+				'.gif' => 'image/gif',
+				'.ico' => 'image/x-icon',
+				'.svg' => 'image/svg+xml',
+				'.js' => 'application/javascript',
+				'.json' => 'application/json',
+				'.map' => 'application/json',
+			];
+		
+			if( !isset($extensions[$extension[0]]) ) {
+				throw(new Exception());
+			}
+
+			header( 'Content-Encoding: gzip' );
+			header( 'Content-Type: '.$extensions[$extension[0]].'; charset=utf-8' );
+			header( 'Cache-Control: max-age=31536000, must-revalidate' );
+			header( 'Expires: '.gmdate('D, d M Y H:i:s', time() + 31536000).' GMT');
+			readfile($filename);
+			exit;
+		} catch(Exception $e) {
+			h404( $e->getMessage() );
 		}
 	}
 
@@ -90,6 +134,7 @@ class VueOutput {
 		add_action('vue-output-script', [$this, 'vueOutputScript']);
 
 		add_action("${ajax_prefix}vue-get-md", [$this, 'vueGetMD']);
+		add_action("${ajax_prefix}vue-gzip", [$this, 'vueGzip']);
 	}
 }
 
