@@ -266,16 +266,19 @@ class VueComponent {
 			$body['jsBundle'] = $md5.'.js';
 			$css[] = $body['css'];
 
-			$lessc = new lessc;
-			$css = $lessc->compile( implode(' ', $css) );
-			$minifier = new MatthiasMullie\Minify\CSS();
-			$minifier->add($css);
-			$css = $minifier->minify();
 			$md5 = md5($css);
-			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css', $css );
-			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css.gz', gzencode($css) );
+			if( empty($body['cssBundle']) or $body['cssBundle'] != $md5.'.css' ) {
+				$lessc = new lessc;
+				$css = $lessc->compile( implode(' ', $css) );
+				$minifier = new MatthiasMullie\Minify\CSS();
+				$minifier->add($css);
+				$css = $minifier->minify();
+				file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css', $css );
+				file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css.gz', gzencode($css) );
 
-			$body['cssBundle'] = $md5.'.css';
+				$body['cssBundle'] = $md5.'.css';
+			}
+
 			file_put_contents($componentCachedPath, json_encode($body));
 			file_put_contents($componentCachedPath.'.gz', gzencode(json_encode($body)));
 		} catch(Exception $e) {
