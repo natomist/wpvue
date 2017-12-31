@@ -60,7 +60,8 @@
 </style>
 
 <template>
-	<div class="diff-images" @mousemove.stop.prevent="mousemove" @touchmove.stop.prevent="touchmove" 
+	<div class="diff-images" @mousemove.stop.prevent="mousemove" 
+			@touchmove.stop.prevent="touchmove" @mousedown.stop.prevent=""
 			:style="{ 'max-width': maxWidth }">
 		<img v-bind:src="right" @load="onload" ref="image" />
 		<div class="wrap" />
