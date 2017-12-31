@@ -266,10 +266,11 @@ class VueComponent {
 			$body['jsBundle'] = $md5.'.js';
 			$css[] = $body['css'];
 
+			$css = implode(' ', $css);
 			$md5 = md5($css);
 			if( empty($body['cssBundle']) or $body['cssBundle'] != $md5.'.css' ) {
 				$lessc = new lessc;
-				$css = $lessc->compile( implode(' ', $css) );
+				$css = $lessc->compile( $css );
 				$minifier = new MatthiasMullie\Minify\CSS();
 				$minifier->add($css);
 				$css = $minifier->minify();
