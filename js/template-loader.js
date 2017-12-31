@@ -1,4 +1,4 @@
-(function (exports) {
+(function (argExports) {
 
 	var isHTMLTag = [
 		'html', 'body', 'base', 'head', 'link', 'meta', 'style', 'title',
@@ -127,7 +127,7 @@
 		}
 	}
 
-	exports.parseComponents = function(components, root, changed) {
+	argExports.parseComponents = function(components, root, changed) {
 		for(var key in components) {
 			if( components[key] == null ) {
 				return Vue.http.post('/', { 
