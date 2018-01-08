@@ -238,7 +238,7 @@ class VueComponent {
 				// Root element should be in the end
 				if( $name != $_REQUEST['name'] ) {
 					$css[] = $component['css'];
-					$js[] = json_encode($name).':'.$component['jsMin'];
+					$js[] = json_encode($name).':Vue.extend('.$component['jsMin'].')';
 				}
 			}
 			$bundleTerms = $this->updateTerms($_REQUEST['name'], $terms);
