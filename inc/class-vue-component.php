@@ -254,16 +254,27 @@ class VueComponent {
 			$minifier->add($js);
 			echo $minifier->minify();
 
+			$path_prefix = get_stylesheet_directory().'/cache/'.$_REQUEST['name'];
+
+			$list = glob( $path_prefix.'-*.js*' );
+			foreach($list as $file) {
+				unlink($list);
+			}
+			$list = glob( $path_prefix.'-*.css*' );
+			foreach($list as $file) {
+				unlink($list);
+			}
+
 			$js = ob_get_clean();
 			$md5 = md5($js);
-			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.js', $js );
-			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.js.gz', gzencode($js) );
+			file_put_contents( $path_prefix.'-'.$md5.'.js', $js );
+			file_put_contents( $path_prefix.'-'.$md5.'.js.gz', gzencode($js) );
 
 			$componentPath = $this->searchComponent($_REQUEST['name']);
 			$componentCachedPath = $this->getComponentCachedPath($componentPath);
 			$body = json_decode(file_get_contents($componentCachedPath), true);
 			$body['bundleTerms'] = $bundleTerms;
-			$body['jsBundle'] = $md5.'.js';
+			$body['jsBundle'] = $_REQUEST['name'].'-'.$md5.'.js';
 			$css[] = $body['css'];
 
 			$css = implode(' ', $css);
@@ -274,10 +285,10 @@ class VueComponent {
 				$minifier = new MatthiasMullie\Minify\CSS();
 				$minifier->add($css);
 				$css = $minifier->minify();
-				file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css', $css );
-				file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.css.gz', gzencode($css) );
+				file_put_contents( $path_prefix.'-'.$md5.'.css', $css );
+				file_put_contents( $path_prefix.'-'.$md5.'.css.gz', gzencode($css) );
 
-				$body['cssBundle'] = $md5.'.css';
+				$body['cssBundle'] = $_REQUEST['name'].'-'.$md5.'.css';
 			}
 
 			file_put_contents($componentCachedPath, json_encode($body));
