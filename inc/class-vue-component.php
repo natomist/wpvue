@@ -53,27 +53,31 @@ class VueComponent {
 		throw new Exception('Component '.$name.' is not found');
 	}
 
-	private function getComponentCachedPath($path) {
-		$name = preg_replace('/\/|\./', '-', substr($path, $this->themeCrop+1));
+	private function getComponentCachedPath($name) {
+		//$name = preg_replace('/\/|\./', '-', substr($path, $this->themeCrop+1));
 		$cachePath = get_stylesheet_directory().'/cache/';
 
 		if( !file_exists($cachePath) ) {
 			mkdir($cachePath);
 		}
-		return $cachePath.$name.'.json';
+		return $cachePath.$name.'.vue.json';
 	}
 
 	public function getComponent($name) {
-		$componentPath = $this->searchComponent($name);
-		$componentCachedPath = $this->getComponentCachedPath($componentPath);
-
-		if( file_exists($componentCachedPath) and (filemtime($componentCachedPath) > filemtime($componentPath) or !is_user_logged_in() ) ) {
+		$componentCachedPath = $this->getComponentCachedPath($name);
+		if ( !is_user_logged_in() ) {
 			return json_decode(file_get_contents($componentCachedPath), true);
-		}
+		} else {
+			$componentPath = $this->searchComponent($name);
 
-		return [
-			'source' => file_get_contents($componentPath),
-		];
+			if( file_exists($componentCachedPath) and (filemtime($componentCachedPath) > filemtime($componentPath) or !is_user_logged_in() ) ) {
+				return json_decode(file_get_contents($componentCachedPath), true);
+			}
+
+			return [
+				'source' => file_get_contents($componentPath),
+			];
+		}
 	}
 
 	public function getCleanComponentDeep($name) {
@@ -185,7 +189,7 @@ class VueComponent {
 			}
 
 			$componentPath = $this->searchComponent($_REQUEST['name']);
-			$componentCachedPath = $this->getComponentCachedPath($componentPath);
+			$componentCachedPath = $this->getComponentCachedPath($_REQUEST['name']);
 
 			$body = json_decode($_REQUEST['body'], true);
 
@@ -256,13 +260,9 @@ class VueComponent {
 
 			$path_prefix = get_stylesheet_directory().'/cache/'.$_REQUEST['name'];
 
-			$list = glob( $path_prefix.'-*.js*' );
+			$list = glob( $path_prefix.'-*.{js,css}{,.gz}', GLOB_BRACE );
 			foreach($list as $file) {
-				unlink($list);
-			}
-			$list = glob( $path_prefix.'-*.css*' );
-			foreach($list as $file) {
-				unlink($list);
+				unlink($file);
 			}
 
 			$js = ob_get_clean();
@@ -271,7 +271,7 @@ class VueComponent {
 			file_put_contents( $path_prefix.'-'.$md5.'.js.gz', gzencode($js) );
 
 			$componentPath = $this->searchComponent($_REQUEST['name']);
-			$componentCachedPath = $this->getComponentCachedPath($componentPath);
+			$componentCachedPath = $this->getComponentCachedPath($_REQUEST['name']);
 			$body = json_decode(file_get_contents($componentCachedPath), true);
 			$body['bundleTerms'] = $bundleTerms;
 			$body['jsBundle'] = $_REQUEST['name'].'-'.$md5.'.js';
@@ -394,16 +394,16 @@ class VueComponent {
 
 		$path_prefix = get_stylesheet_directory().'/cache/'.$_REQUEST['name'];
 
-		$list = glob( $path_prefix.'-*.json.gz' );
+		$list = glob( $path_prefix.'-*.terms.json.gz' );
 		foreach($list as $file) {
-			unlink($list);
+			unlink($file);
 		}
 
 		$englishTerms = [];
 		$content = json_encode( $this->processTermFile($termsPath, 'en.csv', $terms, $englishTerms) );
 		$md5 = md5($content);
-		$newTerms['en'] = $name.'-'.$md5.'.json.gz';
-		file_put_contents( $path_prefix.'-'.$md5.'.json.gz', gzencode($content, 9) );
+		$newTerms['en'] = $_REQUEST['name'].'-'.$md5.'.terms.json.gz';
+		file_put_contents( $path_prefix.'-'.$md5.'.terms.json.gz', gzencode($content, 9) );
 
 		foreach( scandir($termsPath) as $file ) {
 			if( $file == '.' or $file == '..' or $file== 'en.csv' ) {
@@ -416,8 +416,8 @@ class VueComponent {
 			$content = $this->processTermFile($termsPath, $file, $terms, $englishTerms);
 			$content = json_encode($content);
 			$md5 = md5($content);
-			$newTerms[$keys[0]] = $name.'-'.$md5.'.json.gz';
-			file_put_contents( $path_prefix.'-'.$md5.'.json.gz', gzencode($content, 9) );
+			$newTerms[$keys[0]] = $_REQUEST['name'].'-'.$md5.'.terms.json.gz';
+			file_put_contents( $path_prefix.'-'.$md5.'.terms.json.gz', gzencode($content, 9) );
 		}
 
 		return $newTerms;
