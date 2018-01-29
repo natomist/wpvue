@@ -392,11 +392,18 @@ class VueComponent {
 		}
 		touch( $termsPath.'en.csv' );
 
+		$path_prefix = get_stylesheet_directory().'/cache/'.$_REQUEST['name'];
+
+		$list = glob( $path_prefix.'-*.json.gz' );
+		foreach($list as $file) {
+			unlink($list);
+		}
+
 		$englishTerms = [];
 		$content = json_encode( $this->processTermFile($termsPath, 'en.csv', $terms, $englishTerms) );
 		$md5 = md5($content);
-		$newTerms['en'] = $md5.'.json.gz';
-		file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.json.gz', gzencode($content, 9) );
+		$newTerms['en'] = $name.'-'.$md5.'.json.gz';
+		file_put_contents( $path_prefix.'-'.$md5.'.json.gz', gzencode($content, 9) );
 
 		foreach( scandir($termsPath) as $file ) {
 			if( $file == '.' or $file == '..' or $file== 'en.csv' ) {
@@ -409,8 +416,8 @@ class VueComponent {
 			$content = $this->processTermFile($termsPath, $file, $terms, $englishTerms);
 			$content = json_encode($content);
 			$md5 = md5($content);
-			$newTerms[$keys[0]] = $md5.'.json.gz';
-			file_put_contents( get_stylesheet_directory().'/cache/'.$md5.'.json.gz', gzencode($content, 9) );
+			$newTerms[$keys[0]] = $name.'-'.$md5.'.json.gz';
+			file_put_contents( $path_prefix.'-'.$md5.'.json.gz', gzencode($content, 9) );
 		}
 
 		return $newTerms;
