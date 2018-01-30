@@ -2,9 +2,15 @@
 if( !defined('ABSPATH') )  { exit; }
 
 if( is_user_logged_in() ) {
-	$ajax_prefix = 'wp_ajax_';
+	define('AJAX_PREFIX', 'wp_ajax_');
 } else {
-	$ajax_prefix = 'wp_ajax_nopriv_';
+	define('AJAX_PREFIX', 'wp_ajax_nopriv_');
+}
+
+if( is_user_logged_in() and file_exists(__DIR__.'/inc/minify') and file_exists(__DIR__.'/inc/path-converter') and file_exists(__DIR__.'/inc/less.php') ) {
+	define('VUE_DEVELOP', true);
+} else {
+	define('VUE_DEVELOP', false);
 }
 
 require_once('inc/class-vue-component.php');
@@ -32,6 +38,6 @@ if( isset($_REQUEST['action']) and !preg_match('/\/wp-admin\//', $_SERVER['SCRIP
 	header( 'X-Content-Type-Options: nosniff' );
 	header( 'Cache-Control: no-cache, no-store, must-revalidate' );
 
-	do_action( $ajax_prefix.$_REQUEST['action'] );
+	do_action( AJAX_PREFIX.$_REQUEST['action'] );
 	exit;
 }

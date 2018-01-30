@@ -2,6 +2,9 @@
 if( !defined('ABSPATH') )  { exit; }
 
 if( isset($_REQUEST['action']) and $_REQUEST['action'] == "vue-get-md" ) {
+	if( !is_file(__DIR__.'/parsedown/Parsedown.php') ) {
+		h404();
+	}
 	// https://github.com/erusev/parsedown
 	require_once 'parsedown/Parsedown.php';
 }
@@ -19,7 +22,7 @@ class VueOutput {
 	public function vueOutputScript($component) {
 		global $vueComponent;
 
-		if ( is_user_logged_in() ) {
+		if( VUE_DEVELOP ) {
 			$list = apply_filters('vue-cached-scripts', []);
 			$list[] = get_template_directory().'/js/vue-template-compiler.min.js';
 			$list[] = get_template_directory().'/js/template-loader.js';
@@ -43,8 +46,6 @@ class VueOutput {
 			echo '<link id="css" rel="stylesheet" type="text/css" />';
 		} else {
 			$component = $vueComponent->getComponent($component);
-			//echo '<script src="', get_stylesheet_directory_uri(), '/cache/', $component['jsBundle'], '"></script>';
-			//echo '<link rel="stylesheet" type="text/css" href="', get_stylesheet_directory_uri(), '/cache/', $component['cssBundle'], '" />';
 			echo '<script src="?action=vue-gzip&section=cache&name=', $component['jsBundle'], '"></script>';
 			echo '<link rel="stylesheet" type="text/css" href="?action=vue-gzip&section=cache&name=', $component['cssBundle'], '" />';
 		}
@@ -128,13 +129,11 @@ class VueOutput {
 	}
 
 	public function __construct() {
-		global $ajax_prefix;
-
 		add_filter('vue-cached-scripts', [$this, 'vueCachedScripts'], 0);
 		add_action('vue-output-script', [$this, 'vueOutputScript']);
 
-		add_action("${ajax_prefix}vue-get-md", [$this, 'vueGetMD']);
-		add_action("${ajax_prefix}vue-gzip", [$this, 'vueGzip']);
+		add_action(AJAX_PREFIX.'vue-get-md', [$this, 'vueGetMD']);
+		add_action(AJAX_PREFIX.'vue-gzip', [$this, 'vueGzip']);
 	}
 }
 

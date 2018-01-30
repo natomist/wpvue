@@ -1,7 +1,7 @@
 <?php
 if( !defined('ABSPATH') )  { exit; }
 
-if( is_user_logged_in() ) {
+if( VUE_DEVELOP ) {
 	// https://github.com/matthiasmullie/minify
 	require_once 'minify/src/Minify.php';
 	require_once 'minify/src/CSS.php';
@@ -18,7 +18,6 @@ if( is_user_logged_in() ) {
 }
 
 class VueComponent {
-
 	private $componentPaths;
 	private $themeCrop;
 
@@ -65,18 +64,18 @@ class VueComponent {
 
 	public function getComponent($name) {
 		$componentCachedPath = $this->getComponentCachedPath($name);
-		if ( !is_user_logged_in() ) {
-			return json_decode(file_get_contents($componentCachedPath), true);
-		} else {
+		if ( VUE_DEVELOP ) {
 			$componentPath = $this->searchComponent($name);
 
-			if( file_exists($componentCachedPath) and (filemtime($componentCachedPath) > filemtime($componentPath) or !is_user_logged_in() ) ) {
+			if( file_exists($componentCachedPath) and (filemtime($componentCachedPath) > filemtime($componentPath)) ) {
 				return json_decode(file_get_contents($componentCachedPath), true);
 			}
 
 			return [
 				'source' => file_get_contents($componentPath),
 			];
+		} else {
+			return json_decode(file_get_contents($componentCachedPath), true);
 		}
 	}
 
@@ -486,10 +485,10 @@ class VueComponent {
 	}
 
 	public function __construct() {
-		global $ajax_prefix;
+		$this->isPossibleToCompile = $isPossibleToCompile;
 		$this->init();
 
-		if( is_user_logged_in() ) {
+		if( VUE_DEVELOP ) {
 			add_action('wp_ajax_vue-get-component', [$this, 'ajaxGetComponent']);
 			add_action('wp_ajax_vue-get-css', [$this, 'ajaxGetCSS']);
 			add_action('wp_ajax_vue-get-languages', [$this, 'ajaxGetLanguages']);
@@ -497,7 +496,7 @@ class VueComponent {
 			add_action('wp_ajax_vue-update-bundles', [$this, 'ajaxUpdateBundles']);
 		}
 
-		add_action("${ajax_prefix}vue-terms-get", [$this, 'ajaxTermsGet']);
+		add_action(AJAX_PREFIX.'vue-terms-get', [$this, 'ajaxTermsGet']);
 	}
 }
 
