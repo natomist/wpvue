@@ -1,0 +1,16 @@
+.*
+*.rsync
+*.md
+*.csv
+*.vue
+LICENSE*
+
+/inc/path-converter
+/inc/minify
+/inc/less.php
+
+/inc/parsedown/test
+/inc/parsedown/composer.json
+/inc/parsedown/LICENSE.txt
+/inc/parsedown/Parsedown.php
+/inc/parsedown/phpunit.xml.dist
