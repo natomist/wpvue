@@ -161,7 +161,8 @@ class VueComponent {
 				throw(new Exception('There is no css bundle for this component.'));
 			}
 
-			echo parse_url(get_stylesheet_directory_uri(), PHP_URL_PATH ), '/cache/', $component['cssBundle'];
+			header('Content-type: text/plain');
+			readfile( get_stylesheet_directory().'/cache/'.$component['cssBundle'] );
 
 		} catch(Exception $e) {
 			h404( $e->getMessage() );

@@ -43,7 +43,7 @@ class VueOutput {
 				echo 'throw "', esc_html($e->getMessage()), '"';
 			}
 			echo '</script>';
-			echo '<link id="css" rel="stylesheet" type="text/css" />';
+			echo '<style id="css"></style>';
 		} else {
 			$component = $vueComponent->getComponent($component);
 			echo '<script src="?action=vue-gzip&section=cache&name=', $component['jsBundle'], '"></script>';

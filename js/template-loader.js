@@ -92,7 +92,7 @@
 			action: 'vue-get-css',
 			name: root,
 		}).then(function(responce) {
-			document.getElementById('css').setAttribute('href', responce.bodyText);
+			document.getElementById('css').textContent = responce.bodyText;
 			updateLanguages(components, root);
 		}, err);
 	}
