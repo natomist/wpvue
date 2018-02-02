@@ -238,7 +238,6 @@ class VueComponent {
 			foreach($components as $name => $component) {
 				$terms = array_merge($terms, $component['terms']);
 
-				//$js[] = 'Vue.component('.json_encode($name).','.$component['jsMin'].');';
 				// Root element should be in the end
 				if( $name != $_REQUEST['name'] ) {
 					$css[] = $component['css'];
@@ -247,8 +246,6 @@ class VueComponent {
 			}
 			$bundleTerms = $this->updateTerms($_REQUEST['name'], $terms);
 
-			//$js[] = 'new (Vue.component('.json_encode($_REQUEST['name']).'))().$mount("#app");';
-			//$js = implode(' ', $js);
 			ob_start(); 
 			$this->getScript(
 				'new Vue('.$components[$_REQUEST['name']]['jsMin'].').$mount("#app")',
@@ -300,9 +297,6 @@ class VueComponent {
 
 	public function getScript($mount, $termsStr, $componentsStr, $root) {
 		?>
-		function oneOf(value, ar) {
-			return ar.indexOf(value) != -1;
-		};
 		document.addEventListener("DOMContentLoaded", function() {
 			var fetchLanguage = function() {
 				if( this.$route == null || this.$route.params.lang == null ) {
