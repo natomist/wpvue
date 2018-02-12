@@ -52,7 +52,7 @@ class VueComponent {
 		throw new Exception('Component '.$name.' is not found');
 	}
 
-	private function getComponentCachedPath($name) {
+	public function getComponentCachedPath($name) {
 		//$name = preg_replace('/\/|\./', '-', substr($path, $this->themeCrop+1));
 		$cachePath = get_stylesheet_directory().'/cache/';
 
