@@ -10,3 +10,6 @@
 [submodule "inc/less.php"]
 	path = inc/less.php
 	url = https://github.com/oyejorge/less.php.git
+[submodule "inc/spyc"]
+	path = inc/spyc
+	url = https://github.com/mustangostang/spyc.git

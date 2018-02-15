@@ -1,15 +1,16 @@
 <?php
 if( !defined('ABSPATH') )  { exit; }
 
-if( isset($_REQUEST['action']) and $_REQUEST['action'] == "vue-get-md" ) {
-	if( !is_file(__DIR__.'/parsedown/Parsedown.php') ) {
-		h404();
-	}
+if( isset($_REQUEST['action']) and $_REQUEST['action'] == 'vue-get-md' ) {
 	// https://github.com/erusev/parsedown
 	require_once 'parsedown/Parsedown.php';
 }
+// https://github.com/mustangostang/spyc
+require_once 'spyc/Spyc.php';
 
 class VueOutput {
+
+	private $meta = '';
 
 	public function vueCachedScripts($scripts) {
 		$scripts[] = get_template_directory().'/js/vue.runtime.min.js';
@@ -48,6 +49,11 @@ class VueOutput {
 			$component = $vueComponent->getComponent($component);
 			echo '<script src="?action=vue-gzip&section=cache&name=', $component['jsBundle'], '"></script>';
 			echo '<link rel="stylesheet" type="text/css" href="?action=vue-gzip&section=cache&name=', $component['cssBundle'], '" />';
+		}
+
+		// Fix: add here open graph from $this->meta
+		if( isset($this->meta['title']) ) {
+			echo '<title>', esc_html($this->meta['title']), '</title>';
 		}
 	}
 
@@ -93,48 +99,77 @@ class VueOutput {
 		}
 	}
 
-	public function vueGetMD() {
-		global $vueComponent;
+	private function parse($meta, $file) {
+		$content = file_get_contents($file);
 
-		try {
-			if( !isset($_REQUEST['name']) or preg_match('/\.|\//', $_REQUEST['name']) ) {
-				throw(new Exception());
-			}
-			$filename = get_template_directory().'/'.$_REQUEST['name'].'.md';
-			if( !file_exists($filename) ) {
-				throw(new Exception('File not found'));
-			}
-			$parsedown = new Parsedown();
-			$content = $parsedown->parse(file_get_contents($filename));
-			preg_match_all('/<p><a href="#([^"]+)"><\/a><\/p>/m', $content, $components);
-			$components = $components[1];
-			$parts = preg_split('/<p><a href="#[^\"]+"><\/a><\/p>/m', $content);
-
-			$ret = [];
-			for($i = 0; $i < count($parts); $i++) {
-				$ret[] = [ 'html' => $parts[$i] ];
-
-				if( $i < count($components) ) {
-					$path = $vueComponent->searchComponent($components[$i]);
-					$ret[] = $item = [
-						'name' => $components[$i],
-						'code' => file_get_contents($path),
-					];
-				}
-			}
-			echo json_encode($ret);
-		} catch(Exception $e) {
-			h404( $e->getMessage() );
+		if( preg_match('/(---[\s\S]+)\.\.\./', $content, $output) ) {
+			$meta = array_merge( $meta, spyc_load_file($output[1]) );
+			$content = trim(str_replace($output[0], '', $content));
 		}
+
+		$meta['content'] = $content;
+
+		return $meta;
+	}
+
+	private function searchMD() {
+		if( !preg_match('/^(?:\/[^\/?.]*)+/', $_SERVER['REQUEST_URI'], $output) ) {
+			return null;
+		}
+		$output = $output[0];
+
+		$meta = [];
+
+		if( preg_match('/\/$/', $output) ) {
+			$output .= 'index';
+		}
+		$output = explode('/', $output);
+
+		$path = get_stylesheet_directory().'/content';
+		foreach($output as $node) {
+			$path .= $node;
+			if( file_exists( $path.'/index.md' ) ) {
+				$meta = $this->parse( $meta, $path.'/index.md' );
+			} elseif( file_exists( $path.'.md') ) {
+				$meta = $this->parse( $meta, $path.'.md' );
+			}
+			$path .= '/';
+		}
+
+		return $meta;
+	}
+
+	public function vueGetTitle() {
+		if( isset($this->meta['title']) ) {
+			echo json_encode( $this->meta['title'] );
+			exit;
+		}
+		echo json_encode( null );
+		exit;
+	}
+
+	public function vueGetMD() {
+		if( isset($this->meta['content']) ) {
+			$parsedown = new Parsedown();
+			$content = $parsedown->parse( $this->meta['content'] );
+
+			echo json_encode( $content );
+			exit;
+		}
+		echo json_encode( null );
+		exit;
 	}
 
 	public function __construct() {
+		$this->meta = $this->searchMD();
+
 		add_filter('vue-cached-scripts', [$this, 'vueCachedScripts'], 0);
 		add_action('vue-output-script', [$this, 'vueOutputScript']);
 
+		add_action(AJAX_PREFIX.'vue-get-title', [$this, 'vueGetTitle']);
 		add_action(AJAX_PREFIX.'vue-get-md', [$this, 'vueGetMD']);
 		add_action(AJAX_PREFIX.'vue-gzip', [$this, 'vueGzip']);
 	}
 }
 
-new VueOutput();
+$vueOutput = new VueOutput();
