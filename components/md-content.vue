@@ -4,6 +4,11 @@
 
 <script>
 module.exports = {
+	props: {
+		'path': {
+			default: '',
+		}
+	},
 	data: function() {
 		return {
 			content: null,
@@ -17,6 +22,7 @@ module.exports = {
 
 				Vue.http.post('?', {
 					action: 'vue-get-md',
+					path: self.path,
 				}).then(function( response ) {
 					self.content = response.body;
 					console.log( response.body );

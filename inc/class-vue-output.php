@@ -5,8 +5,10 @@ if( isset($_REQUEST['action']) and $_REQUEST['action'] == 'vue-get-md' ) {
 	// https://github.com/erusev/parsedown
 	require_once 'parsedown/Parsedown.php';
 }
-// https://github.com/mustangostang/spyc
-require_once 'spyc/Spyc.php';
+if( !isset($_REQUEST['action']) or in_array($_REQUEST['action'], ['vue-get-md', 'vue-get-title']) ) {
+	// https://github.com/mustangostang/spyc
+	require_once 'spyc/Spyc.php';
+}
 
 class VueOutput {
 
@@ -99,21 +101,30 @@ class VueOutput {
 		}
 	}
 
-	private function parse($meta, $file) {
+	private function parse($meta, $file, $skipFragment) {
 		$content = file_get_contents($file);
 
 		if( preg_match('/(---[\s\S]+)\.\.\./', $content, $output) ) {
 			$meta = array_merge( $meta, spyc_load_file($output[1]) );
+
+			if( $skipFragment and isset($meta['fragment']) and $meta['fragment'] == 1 ) {
+				return $meta;
+			}
 			$content = trim(str_replace($output[0], '', $content));
 		}
-
 		$meta['content'] = $content;
 
 		return $meta;
 	}
 
-	private function searchMD() {
-		if( !preg_match('/^(?:\/[^\/?.]*)+/', $_SERVER['REQUEST_URI'], $output) ) {
+	private function searchMD($url = null) {
+		if( $url == null ) {
+			$url = $_SERVER['REQUEST_URI'];
+			$skipFragment = true;
+		} else {
+			$skipFragment = false;
+		}
+		if( !preg_match('/^(?:\/[^\/?.]*)+/', $url, $output) ) {
 			return null;
 		}
 		$output = $output[0];
@@ -129,9 +140,9 @@ class VueOutput {
 		foreach($output as $node) {
 			$path .= $node;
 			if( file_exists( $path.'/index.md' ) ) {
-				$meta = $this->parse( $meta, $path.'/index.md' );
+				$meta = $this->parse( $meta, $path.'/index.md', $skipFragment );
 			} elseif( file_exists( $path.'.md') ) {
-				$meta = $this->parse( $meta, $path.'.md' );
+				$meta = $this->parse( $meta, $path.'.md', $skipFragment );
 			}
 			$path .= '/';
 		}
@@ -149,6 +160,11 @@ class VueOutput {
 	}
 
 	public function vueGetMD() {
+		if( empty($_REQUEST['path']) ) {
+			$this->meta = $this->searchMD();
+		} else {
+			$this->meta = $this->searchMD( $_REQUEST['path'] );
+		}
 		if( isset($this->meta['content']) ) {
 			$parsedown = new Parsedown();
 			$content = $parsedown->parse( $this->meta['content'] );
@@ -161,7 +177,9 @@ class VueOutput {
 	}
 
 	public function __construct() {
-		$this->meta = $this->searchMD();
+		if( !isset($_REQUEST['action']) or $_REQUEST['action'] == 'vue-get-title' ) {
+			$this->meta = $this->searchMD();
+		}
 
 		add_filter('vue-cached-scripts', [$this, 'vueCachedScripts'], 0);
 		add_action('vue-output-script', [$this, 'vueOutputScript']);

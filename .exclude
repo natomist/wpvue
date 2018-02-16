@@ -12,5 +12,13 @@ LICENSE*
 /inc/parsedown/test
 /inc/parsedown/composer.json
 /inc/parsedown/LICENSE.txt
-/inc/parsedown/Parsedown.php
 /inc/parsedown/phpunit.xml.dist
+
+/inc/spyc/composer.json
+/inc/spyc/COPYING
+/inc/spyc/examples
+/inc/spyc/php4
+/inc/spyc/phpunit.xml
+/inc/spyc/README.md
+/inc/spyc/spyc.yaml
+/inc/spyc/tests
