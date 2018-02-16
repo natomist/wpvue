@@ -25,7 +25,6 @@ module.exports = {
 					path: self.path,
 				}).then(function( response ) {
 					self.content = response.body;
-					console.log( response.body );
 				});
 			}
 		}
