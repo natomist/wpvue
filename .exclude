@@ -1,6 +1,5 @@
 .*
 *.rsync
-*.md
 *.csv
 *.vue
 LICENSE*
