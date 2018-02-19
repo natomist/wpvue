@@ -1,6 +1,11 @@
 <?php
 if( !defined('ABSPATH') )  { exit; }
 
+//Check maintenance mode
+require_once('inc/maintenance.php');
+if( file_exists(ABSPATH) and empty($_REQEST['action']) ) {
+}
+
 if( is_user_logged_in() ) {
 	define('AJAX_PREFIX', 'wp_ajax_');
 } else {
