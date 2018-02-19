@@ -320,6 +320,12 @@ class VueComponent {
 				}
 			};
 
+			var fetchTitle = function() {
+				Vue.http.get('?action=vue-get-title').then(function( response ) {
+					document.title = response.body;
+				});
+			};
+
 			Vue.http.options.emulateJSON = true;
 			Vue.mixin({
 				data: function() {
@@ -336,6 +342,7 @@ class VueComponent {
 						return;
 					}
 					this.$watch('$route.params.lang', fetchLanguage, { immediate: true, });
+					this.$watch('$route.path', fetchTitle);
 				},
 				methods: {
 					t: function(term) {

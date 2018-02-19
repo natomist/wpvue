@@ -110,9 +110,13 @@ class VueOutput {
 			if( $skipFragment and isset($meta['fragment']) and $meta['fragment'] == 1 ) {
 				return $meta;
 			}
-			$content = trim(str_replace($output[0], '', $content));
+			$content = str_replace($output[0], '', $content);
 		}
-		$meta['content'] = $content;
+
+		$content = trim($content);
+		if( $content != '' ) {
+			$meta['content'] = $content;
+		}
 
 		return $meta;
 	}
