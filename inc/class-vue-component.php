@@ -351,10 +351,10 @@ class VueComponent {
 						}
 						var lang = this.$route.params.lang;
 						var $root = this.$root;
-						if( $root.terms != null && $root.terms[lang] != null && $root.terms[lang][term] != null ) {
+						if( $root.terms != null && $root.terms[lang] != null && $root.terms[lang][term] != null && $root.terms[lang][term] != '') {
 							return $root.terms[lang][term];
 						}
-						return '!'+term;
+						return term;
 					},
 					getLanguages: function() {
 						return <?php echo $termsStr; ?>
