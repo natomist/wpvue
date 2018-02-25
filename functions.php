@@ -1,10 +1,13 @@
 <?php
 if( !defined('ABSPATH') )  { exit; }
 
+//Set response code 200
+add_filter( 'pre_handle_404', function() {
+	return true;
+} );
+
 //Check maintenance mode
 require_once('inc/maintenance.php');
-if( file_exists(ABSPATH) and empty($_REQEST['action']) ) {
-}
 
 if( is_user_logged_in() ) {
 	define('AJAX_PREFIX', 'wp_ajax_');
