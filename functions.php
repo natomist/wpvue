@@ -1,10 +1,12 @@
 <?php
 if( !defined('ABSPATH') )  { exit; }
 
-//Set response code 200
-add_filter( 'pre_handle_404', function() {
-	return true;
-} );
+////Always return status 200 and try to open index.php
+//add_filter( 'pre_handle_404', function($status_header) {
+//	global $wp_query;
+//	$wp_query->set_404();
+//	return true;
+//} );
 
 //Check maintenance mode
 require_once('inc/maintenance.php');

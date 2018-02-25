@@ -1,4 +1,7 @@
-<?php if( !defined('ABSPATH') )  { exit; } ?>
+<?php 
+	if( !defined('ABSPATH') )  { exit; } 
+	header('HTTP/1.1 200 OK', true, 200);
+?>
 <!DOCTYPE html>
 <html>
 <head>
