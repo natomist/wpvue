@@ -1,13 +1,14 @@
 <template>
 	<div v-if="show" class="cookies-notify uk-overlay-primary uk-text-center uk-padding-small 
-		uk-position-fixed uk-position-z-index uk-position-bottom uk-overlay ">
+		uk-position-fixed uk-position-z-index uk-overlay ">
 		By using the {{name}} website you agree to our use of cookies as described in our cookie policy.
 		<a :href="more">More</a> &nbsp;
-		<button class="uk-button uk-button-primary uk-button-small uk-border-rounded" @click="gotit">Понял</button>
+		<button class="uk-button uk-button-primary uk-button-small uk-border-rounded" @click="gotit">Got it</button>
 	</div>
 </template>
 
 <script>
+// uk-position-bottom
 module.exports = {
 	props: ['name', 'more'],
 	data: function() {
