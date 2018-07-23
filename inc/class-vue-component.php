@@ -354,7 +354,7 @@ class VueComponent {
 						if( $root.terms != null && $root.terms[lang] != null && $root.terms[lang][term] != null && $root.terms[lang][term] != '') {
 							return $root.terms[lang][term];
 						}
-						return term;
+						return '·';
 					},
 					getLanguages: function() {
 						return <?php echo $termsStr; ?>
