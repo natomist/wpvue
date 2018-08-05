@@ -342,7 +342,7 @@ class VueComponent {
 						return;
 					}
 					this.$watch('$route.params.lang', fetchLanguage, { immediate: true, });
-					this.$watch('$route.path', fetchTitle);
+					this.$watch('$route.path', fetchTitle, { immediate: true, });
 				},
 				methods: {
 					t: function(term) {
@@ -359,7 +359,7 @@ class VueComponent {
 					getLanguages: function() {
 						return <?php echo $termsStr; ?>
 					},
-					getParent(name) {
+					getParent: function(name) {
 						var parent = this.$parent;
 						while(parent) {
 							if( parent.name == name ) {

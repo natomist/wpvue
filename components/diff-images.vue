@@ -112,7 +112,8 @@ module.exports = {
 			this.position = (clientX-rect.left)*100/(rect.right-rect.left);
 		},
 		mousemove: function(event) {
-			if( event.buttons == 0 ) {
+			var webkit = 'WebkitAppearance' in document.documentElement.style;
+			if( (webkit ? event.which : event.buttons) == 0 ) {
 				return;
 			}
 			this.updateX( event.clientX, event );
