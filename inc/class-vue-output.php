@@ -12,7 +12,7 @@ if( !isset($_REQUEST['action']) or in_array($_REQUEST['action'], ['vue-get-md', 
 
 class VueOutput {
 
-	private $meta = '';
+	private $meta = [];
 
 	public function vueCachedScripts($scripts) {
 		$scripts[] = get_template_directory().'/js/vue.runtime.min.js';
@@ -53,10 +53,24 @@ class VueOutput {
 			echo '<link rel="stylesheet" type="text/css" href="?action=vue-gzip&section=cache&name=', $component['cssBundle'], '" />';
 		}
 
-		// Fix: add here open graph from $this->meta
 		if( isset($this->meta['title']) ) {
 			echo '<title>', esc_html($this->meta['title']), '</title>';
+			echo '<meta property="og:title" content="'.esc_attr($this->meta['title']).'" />';
 		}
+		if( isset($this->meta['description']) ) {
+			echo '<meta name="description" content="', esc_attr($this->meta['description']), '">';
+			echo '<meta name="og:description" content="', esc_attr($this->meta['description']), '">';
+		}
+		if( isset($this->meta['description']) ) {
+			echo '<meta name="og:image" content="', esc_attr($this->meta['image']), '">';
+		}
+		if( isset($this->meta['locale']) ) {
+			echo '<meta name="og:locale" content="', esc_attr($this->meta['locale']), '">';
+		}
+		if( isset($this->meta['url']) ) {
+			echo '<meta name="og:url" content="', esc_attr($this->meta['url']), '">';
+		}
+		echo '<meta property="og:type" content="website" />';
 	}
 
 	public function vueGzip() {
@@ -138,17 +152,17 @@ class VueOutput {
 		if( preg_match('/\/$/', $output) ) {
 			$output .= 'index';
 		}
-		$output = explode('/', $output);
+		$output = array_filter( explode('/', $output) );
 
 		$path = get_stylesheet_directory().'/content';
 		foreach($output as $node) {
-			$path .= $node;
+			$path .= '/'.$node;
 			if( file_exists( $path.'/index.md' ) ) {
 				$meta = $this->parse( $meta, $path.'/index.md', $skipFragment );
 			} elseif( file_exists( $path.'.md') ) {
 				$meta = $this->parse( $meta, $path.'.md', $skipFragment );
 			}
-			$path .= '/';
+			//$path .= '/';
 		}
 
 		return $meta;
