@@ -53,22 +53,23 @@ class VueOutput {
 			echo '<link rel="stylesheet" type="text/css" href="?action=vue-gzip&section=cache&name=', $component['cssBundle'], '" />';
 		}
 
+		//print_r($this->meta); exit;
 		if( isset($this->meta['title']) ) {
 			echo '<title>', esc_html($this->meta['title']), '</title>';
 			echo '<meta property="og:title" content="'.esc_attr($this->meta['title']).'" />';
 		}
 		if( isset($this->meta['description']) ) {
 			echo '<meta name="description" content="', esc_attr($this->meta['description']), '">';
-			echo '<meta name="og:description" content="', esc_attr($this->meta['description']), '">';
+			echo '<meta property="og:description" content="', esc_attr($this->meta['description']), '">';
 		}
-		if( isset($this->meta['description']) ) {
-			echo '<meta name="og:image" content="', esc_attr($this->meta['image']), '">';
+		if( isset($this->meta['image']) ) {
+			echo '<meta property="og:image" content="', esc_attr($this->meta['image']), '">';
 		}
 		if( isset($this->meta['locale']) ) {
-			echo '<meta name="og:locale" content="', esc_attr($this->meta['locale']), '">';
+			echo '<meta property="og:locale" content="', esc_attr($this->meta['locale']), '">';
 		}
 		if( isset($this->meta['url']) ) {
-			echo '<meta name="og:url" content="', esc_attr($this->meta['url']), '">';
+			echo '<meta property="og:url" content="', esc_attr($this->meta['url']), '">';
 		}
 		echo '<meta property="og:type" content="website" />';
 	}
